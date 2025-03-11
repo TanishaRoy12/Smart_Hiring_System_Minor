@@ -1,22 +1,29 @@
-import time
 import streamlit as st
+import nltk
 import spacy
+nltk.download('stopwords')
 spacy.load('en_core_web_sm')
 
 import pandas as pd
+import base64, random
 import time, datetime
 from pyresparser import ResumeParser
-# from resume_parser import resumeparse
+from pdfminer3.layout import LAParams, LTTextBox
+from pdfminer3.pdfpage import PDFPage
+from pdfminer3.pdfinterp import PDFResourceManager
+from pdfminer3.pdfinterp import PDFPageInterpreter
+from pdfminer3.converter import TextConverter
+import io, random
 from streamlit_tags import st_tags
 from PIL import Image
-# import pymysql
 import mysql.connector
-import plotly.express as px
-from plotly import optional_imports
-import smtplib
+import pymysql
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-import os
+import smtplib
+# from Courses import ds_course, web_course, android_course, ios_course, uiux_course, resume_videos, interview_videos
+import plotly.express as px
+
 
 def send_email(to_email, subject, message):
     try:
@@ -79,8 +86,7 @@ background: rgba(0,0,0,0);
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
 
-# connection = pymysql.connect(host='localhost', user='root', password='')
-connection = mysql.connector.connect(host='localhost', user='root', password='',database='sra3')
+connection = mysql.connector.connect(host='sql12.freesqldatabase.com', user='sql12763883', password='UbNkeHVXWh',database='sql12763883')
 cursor = connection.cursor()
 
 def insert_data(name, email, timestamp, exp, skills,count,Resume):
@@ -626,7 +632,7 @@ def run():
                                     st.header("**User's Basic Data**")
                                     df1 = pd.DataFrame(data10, columns=['ID', 'Name', 'Email', 'Experience', 'Actual Skills','Matching skills'])        
                                     st.dataframe(df1)
-                                    st.balloons()
+                                    # st.balloons()
 
 
 
@@ -694,4 +700,3 @@ def run():
             st.error(f"**⚠ An unexpected error occurred: {main_error}**")
 
 run()
-
